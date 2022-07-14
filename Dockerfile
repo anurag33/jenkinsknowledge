@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-MAINTAINER anuragkmr328@gmail.com
+MAINTAINER anurag19962@gmail.com
 RUN apt-get update && apt-get install -y apache2 openssh-server openssh-client zip unzip
 ADD https://www.free-css.com/assets/files/free-css-templates/download/page280/foodhut.zip /var/www/html
 WORKDIR /var/www/html
