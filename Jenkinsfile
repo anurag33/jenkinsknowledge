@@ -6,7 +6,6 @@ pipeline{
         registryCredential = 'dockerhub_id'
         dockerImage =''
         dockerrun = 'docker run -p 8000:80 -d --name jenkinsknowledges anuragkmr328/docker-pipeline-job:latest'
-        dockerrm = 'docker container rm -f jenkinsknowledges docker-pipeline-job:latest'
         dockerimagerm = 'docker image rmi anuragkmr328/docker-pipeline-job:latest'
         dockercostop = 'docker ps -f name=jenkinsknowledges -q | xargs --no-run-if-empty docker container stop'
         dockercorm = 'docker container ls -a -fname=jenkinsknowledges -q | xargs -r docker container rm'
