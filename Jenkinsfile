@@ -50,6 +50,14 @@ pipeline{
                 }
             }
             
+            stage("Deployment of Docker Container"){
+                steps{
+                    script{
+                        dockerImage.run("-p 8000:80 --rm --name jenkinsknowledges")
+                    }
+                }
+            }
+            
             
         }
     }
