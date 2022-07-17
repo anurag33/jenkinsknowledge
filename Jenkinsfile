@@ -5,6 +5,7 @@ pipeline{
         registry = 'anuragkmr328/docker-pipeline-job'
         registryCredential = 'dockerhub_id'
         dockerImage =''
+        dockerrun = 'docker run -p 8000:80 -d --name jenkinsknowledges anuragkmr328/docker-pipeline-job:latest'
     }
         
         stages {
@@ -53,7 +54,9 @@ pipeline{
             stage("Deployment of Docker Container"){
                 steps{
                     script{
-                        dockerImage.run("-p 8000:80 --rm --name jenkinsknowledges")
+                        sshagent(['dockerhostpassword']){
+                            sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerrun}"
+                        }
                     }
                 }
             }
