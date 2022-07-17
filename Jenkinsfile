@@ -3,7 +3,7 @@ pipeline{
     agent any
     
     environment {
-        registry = 'anuragkmr328/myDockerPipelineJob'
+        registry = 'anuragkmr328/docker-pipeline-job'
         registryCredential = 'dockerhubpassword'
         dockerImage =''
     }
