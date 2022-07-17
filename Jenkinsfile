@@ -41,20 +41,13 @@ pipeline {
 		def dockerrm = 'docker container rm -f jenkinsknowledges declarative-pipeline-demo:latest'
 		def dockerimagerm = 'docker image rmi anuragkmr328/declarative-pipeline-demo:latest'
 	  }	      
+	  sshagent(['dockerhostpassword']){
+	      sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerrm}"
+    	      sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerimagerm}"
+    	      sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerrun}"
+	  }    
       }
     }
-    
-    stage("Deployment of Docker Container"){
-      steps{
-        sshagent(['dockerhostpassword']){
-	  sh """	
-          	 ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerrm}
-          	 ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerimagerm}
-          	 ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerrun}
- 	  sh """
-        }
-      }
-    }
-    
+        
   }
 }
