@@ -44,5 +44,16 @@ pipeline {
 	}    
       }
 	  
+    stage("Deployment of Docker Container"){
+      steps{
+	sshagent(['dockerhostpassword']){
+	   script{
+		sh """
+		"ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerrun}"
+		"""
+	}
+      }
+     }	
+    }	  
   }
 }
