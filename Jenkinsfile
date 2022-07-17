@@ -45,7 +45,6 @@ pipeline {
     	      sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerrun}"
 	  }    
       }
-    }
         
   }
 }
