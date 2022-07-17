@@ -11,5 +11,10 @@ pipeline {
         git branch: 'main', url: 'https://github.com/anurag33/jenkinsknowledge'
       }
     }
+    stage("Maven Build"){
+      steps{
+        sh "mvn clean package"
+      }
+    }
   }
 }
