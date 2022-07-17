@@ -1,20 +1,26 @@
 pipeline {
   agent any
-  
-  environment{
-    PATH = "/usr/share/maven/bin:$PATH"
-  }
-  
   stages{
+    
     stage("Git Checkout"){
       steps{
         git branch: 'main', url: 'https://github.com/anurag33/jenkinsknowledge'
       }
     }
-    stage("Maven Build"){
+    
+    stage("Pull Source Code from Github"){
       steps{
-        sh "mvn clean package"
+        git branch: 'main', url: 'https://github.com/anurag33/jenkinsknowledge.git'
       }
     }
+    
+    stage("Build Docker File"){
+      steps{
+        sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID .'
+        sh 'docker image tag $JOB_NAME:v1.$BUILD_ID anuragkmr328/$JOB_NAME:v1.$BUILD_ID'
+        sh 'docker image tag $JOB_NAME:v1.$BUILD_ID anuragkmr328/$JOB_NAME:latest'
+      }
+    }
+    
   }
 }
