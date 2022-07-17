@@ -43,6 +43,14 @@ pipeline{
                 }
             }
             
+            stage("Docker stop container"){
+                steps{
+                    sh 'docker ps -f name=jenkinsknowledges -q | xargs --no-run-if-empty docker container stop'
+                    sh 'docker container ls -a -fname=jenkinsknowledges -q | xargs -r docker container rm'
+                }
+            }
+            
+            
         }
     }
     
