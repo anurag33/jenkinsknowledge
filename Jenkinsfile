@@ -45,9 +45,11 @@ pipeline {
     stage("Deployment of Docker Container"){
       steps{
         sshagent(['dockerhostpassword']){
-          sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerrm}"
-          sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerimagerm}"
-          sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerrun}"
+	  sh """	
+          	 ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerrm}
+          	 ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerimagerm}
+          	 ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockerrun}
+ 	  sh """
         }
       }
     }
