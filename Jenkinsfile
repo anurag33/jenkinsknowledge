@@ -1,9 +1,9 @@
 pipeline {
   agent any
   stages{
-    stage("Welcome"){
+    stage("Git Checkout"){
       steps{
-        echo "Welcome to the Jenkins Declarative"
+        git branch: 'main', url: 'https://github.com/anurag33/jenkinsknowledge'
       }
     }
   }
