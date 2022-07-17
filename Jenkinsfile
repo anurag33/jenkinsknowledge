@@ -23,7 +23,9 @@ pipeline{
             stage("Building Docker Images"){
                 steps{
                     script{
-                        dockerImage = docker.build registry
+                        sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID .'
+                        sh 'docker image tag $JOB_NAME:v1.$BUILD_ID anuragkmr328/$JOB_NAME:v1.$BUILD_ID'
+                        sh 'docker image tag $JOB_NAME:v1.$BUILD_ID anuragkmr328/$JOB_NAME:latest'
                     }
                 }
             }
@@ -31,8 +33,11 @@ pipeline{
             stage("Push Image to Docker Hub"){
                 steps{
                     script{
-                        docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
+                        withCredentials([string(credentialsId: 'dockerhub_id', variable: 'dockerhub_id')]) {
+                            sh 'docker login -u anuragkmr328 -p ${dockerhub_id}'
+                            sh 'docker image push anuragkmr328/$JOB_NAME:v1.$BUILD_ID'
+                            sh 'docker image push anuragkmr328/$JOB_NAME:latest'
+                            sh 'docker image rmi $JOB_NAME:v1.$BUILD_ID anuragkmr328/$JOB_NAME:v1.$BUILD_ID anuragkmr328/$JOB_NAME:latest'
                         }
                     }
                 }
