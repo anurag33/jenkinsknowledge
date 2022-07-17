@@ -24,9 +24,12 @@ pipeline {
     
     stage("Push Image to Docker Hub"){
       steps{
-        sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID .'
-        sh 'docker image tag $JOB_NAME:v1.$BUILD_ID anuragkmr328/$JOB_NAME:v1.$BUILD_ID'
-        sh 'docker image tag $JOB_NAME:v1.$BUILD_ID anuragkmr328/$JOB_NAME:latest'
+            withCredentials([string(credentialsId: 'dockerhubpassword', variable: 'dockerhubpassword')]) {
+        sh 'docker login -u anuragkmr328 -p ${dockerhubpassword}'
+        sh 'docker image push anuragkmr328/$JOB_NAME:v1.$BUILD_ID'
+        sh 'docker image push anuragkmr328/$JOB_NAME:latest'
+        sh 'docker image rmi $JOB_NAME:v1.$BUILD_ID anuragkmr328/$JOB_NAME:v1.$BUILD_ID anuragkmr328/$JOB_NAME:latest'
+
       }
     }
   }
