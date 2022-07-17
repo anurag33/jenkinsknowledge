@@ -4,6 +4,7 @@ pipeline{
     
     environment {
         registry = 'anuragkmr328/myDockerPipelineJob'
+        registryCredential = 'dockerhubpassword'
         dockerImage =''
     }
         
@@ -23,7 +24,7 @@ pipeline{
             stage("Building Docker Images"){
                 steps{
                     script{
-                        dockerImage = docker.build registery
+                        dockerImage = docker.build registry
                     }
                 }
             }
