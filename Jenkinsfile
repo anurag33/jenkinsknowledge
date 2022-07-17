@@ -6,6 +6,10 @@ pipeline{
         registryCredential = 'dockerhub_id'
         dockerImage =''
         dockerrun = 'docker run -p 8000:80 -d --name jenkinsknowledges anuragkmr328/docker-pipeline-job:latest'
+        dockerrm = 'docker container rm -f jenkinsknowledges docker-pipeline-job:latest'
+        dockerimagerm = 'docker image rmi anuragkmr328/docker-pipeline-job:latest'
+        dockercostop = 'docker ps -f name=jenkinsknowledges -q | xargs --no-run-if-empty docker container stop'
+        dockercorm = 'docker container ls -a -fname=jenkinsknowledges -q | xargs -r docker container rm'
     }
         
         stages {
@@ -44,10 +48,14 @@ pipeline{
                 }
             }
             
-            stage("Docker stop container"){
+            stage("Stop and remove existing Docker Container"){
                 steps{
-                    sh 'docker ps -f name=jenkinsknowledges -q | xargs --no-run-if-empty docker container stop'
-                    sh 'docker container ls -a -fname=jenkinsknowledges -q | xargs -r docker container rm'
+                    script{
+                        sshagent(['dockerhostpassword']){
+                            sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockercostop}"
+                            sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.159 ${dockercorm}"
+                        }
+                    }
                 }
             }
             
